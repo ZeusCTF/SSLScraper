@@ -1,5 +1,22 @@
 import ssl
 import socket
+import argparse
+
+
+print("""
+ ____ ____  _       ____  _            _   _     
+/ ___/ ___|| |     / ___|| | ___ _   _| |_| |__  
+\___ \___ \| |     \___ \| |/ _ \ | | | __| '_ \ 
+ ___) |__) | |___   ___) | |  __/ |_| | |_| | | |
+|____/____/|_____| |____/|_|\___|\__,_|\__|_| |_|
+
+      """)
+# Instantiate the parser
+parser = argparse.ArgumentParser(description='Optional app description')
+
+# Gather domain
+parser.add_argument('domain', type=str, help='Domain to scan for an SSL certificate')
+args = parser.parse_args()
 
 def download_ssl_certificate(hostname, port=443):
     # Create a socket connection to the server
@@ -11,6 +28,7 @@ def download_ssl_certificate(hostname, port=443):
 
     return certificate
 
+#strip all other domains
 def strip_cert(cert):
     print("Other domains")
     for domain in cert['subjectAltName']:
@@ -28,7 +46,7 @@ def strip_cert(cert):
 
 if __name__ == "__main__":
     
-    target_hostname = input('Enter target domain name: ')
+    target_hostname = args.domain
     target_port = 443
 
     try:
